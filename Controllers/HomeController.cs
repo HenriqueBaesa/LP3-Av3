@@ -8,6 +8,9 @@ namespace Av1.Controllers;
 
 public class HomeController : Controller
 {
+    private static List<Estabelecimento> estabelecimentos = new List<Estabelecimento>();
+
+
     private readonly ILogger<HomeController> _logger;
 
     public HomeController(ILogger<HomeController> logger)
@@ -15,23 +18,19 @@ public class HomeController : Controller
         _logger = logger;
     }
 
-    private static List<Estabelecimento> estabelecimentos = new List<Estabelecimento>();
-    /*
-    private static List estudantes = new List{
-        new EstudanteViewModel(1, "Miles Milhares", "Rua Testa, 1", true),
-        new EstudanteViewModel(2, "Antedeguemon", "Rua yugi, 66", true),
-        new EstudanteViewModel(3, "Verdin Gadinho", "Rua fumo, 420", false),
-        new EstudanteViewModel(4, "Sujiro Kimimame", "Jacinto Leite, 69", true)
-    }; */
-
     public IActionResult Index()
     {
         return View();
     }
 
-    public IActionResult Cadastrar()
+    public IActionResult Cadastro()
     {
         return View();
+    }
+
+    public IActionResult Cadastrar([FromForm] int id, [FromForm] int piso, [FromForm] string nome, [FromForm] string email, [FromForm] string descricao, [FromForm] bool tipo){
+        estabelecimentos.Add(new Estabelecimento(id, piso, nome, descricao, email, tipo));
+        return View("Cadastro");
     }
 
     public IActionResult Privacy()
