@@ -28,7 +28,15 @@ public class HomeController : Controller
         return View();
     }
 
-    public IActionResult Cadastrar([FromForm] int id, [FromForm] int piso, [FromForm] string nome, [FromForm] string email, [FromForm] string descricao, [FromForm] bool tipo){
+    public IActionResult Cadastrar([FromForm] int id, [FromForm] int piso, [FromForm] string nome, [FromForm] string email, [FromForm] string descricao, [FromForm] bool tipo)
+    {
+        foreach (Estabelecimento estabelecimento in estabelecimentos)
+        {
+            if (estabelecimento.Id == id)
+            {
+                return Content("Estabelecimento já cadastrado");
+            }
+        }
         estabelecimentos.Add(new Estabelecimento(id, piso, nome, descricao, email, tipo));
         return View("Cadastro");
     }
