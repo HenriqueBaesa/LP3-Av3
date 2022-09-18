@@ -20,6 +20,7 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
+        ViewBag.estabelecimentos = estabelecimentos;
         return View();
     }
 
@@ -32,13 +33,46 @@ public class HomeController : Controller
     {
         foreach (Estabelecimento estabelecimento in estabelecimentos)
         {
-            if (estabelecimento.Id == id)
+            if (estabelecimento.Id == id || estabelecimento.Nome == nome)
             {
                 return Content("Estabelecimento já cadastrado");
             }
         }
         estabelecimentos.Add(new Estabelecimento(id, piso, nome, descricao, email, tipo));
         return View("Cadastro");
+    }
+
+    public IActionResult Gerenciamento()
+    {
+        ViewBag.estabelecimentos = estabelecimentos;
+        return View();
+    }
+
+    public IActionResult Remover([FromForm] int id)
+    {
+        foreach (Estabelecimento estabelecimento in estabelecimentos)
+        {
+            if (estabelecimento.Id == id)
+            {
+                estabelecimentos.Remove(estabelecimento);
+                return Content("Estabelecimento removido com sucesso");
+            }
+        }
+
+        return Content("Não foi possível remover");
+    }
+
+    public IActionResult Detalhes([FromForm] int id)
+    {
+        foreach (Estabelecimento estabelecimento in estabelecimentos)
+        {
+            if (estabelecimento.Id == id)
+            {
+                return View(estabelecimento);
+            }
+        }
+
+        return Content("Não foi possível mostrar os detalhes");
     }
 
     public IActionResult Privacy()
